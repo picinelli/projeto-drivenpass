@@ -34,9 +34,24 @@ export async function getAllUserCredentials(userId: number) {
   const credentials = await credentialsRepository.getAllUserCredentials(userId)
   if(!credentials) throwError("No credential was found")
 
-  return credentials
+  const decryptedCredentials: credentialsRepository.Credential[] = decryptMultiplePasswords(credentials)
+
+  return decryptedCredentials
 }
 
+export async function deleteCredential(id: number, userId: number) {
+  const credential = await credentialsRepository.getCredentialById(id)
+  if(!credential) throwError("This credential does not exist!")
+  if(credential.userId !== userId) throwError("UserId incorrect!")
+
+  await credentialsRepository.deleteCredential(id)
+}
+
+
+
+
+
+//Utility functions
 
 function encryptPassword(password: string) {
   const cryptr = new Cryptr(process.env.CRYPTR_PASS);
@@ -46,4 +61,14 @@ function encryptPassword(password: string) {
 function decryptPassword(password: string) {
   const cryptr = new Cryptr(process.env.CRYPTR_PASS);
   return cryptr.decrypt(password);
+}
+
+function decryptMultiplePasswords(credentials: credentialsRepository.Credential[]) {
+  const cryptr = new Cryptr(process.env.CRYPTR_PASS);
+
+  credentials.map(e => {
+    e.password = cryptr.decrypt(e.password);
+  })
+
+  return credentials;
 }

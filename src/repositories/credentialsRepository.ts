@@ -49,3 +49,11 @@ export async function createCredential(credential: Credential) {
     }
   })
 }
+
+export async function deleteCredential(id: number) {
+  return await prisma.credential.delete({
+    where: {
+      id: id
+    }
+  })
+}
