@@ -6,11 +6,10 @@ import * as notesService from "../services/notesService.js"
 
 
 export async function createNote(req: Request, res: Response) {
-  const noteData: Note = req.body;
   const userId: number = res.locals.token.userId
-  if(noteData.userId !== userId) throwError("userId Incorrect")
+  const noteData: Note = {...req.body, userId: userId};
 
-  await notesService.createNote(noteData, userId)
+  await notesService.createNote(noteData)
 
   res.status(201).send("Nota criada com sucesso!");
 }

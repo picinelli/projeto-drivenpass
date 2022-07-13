@@ -21,11 +21,11 @@ export async function createNote(note: Note) {
   })
 }
 
-export async function getNoteByTitle(title: string, userId: number) {
+export async function getNoteByTitle(note: Note) {
   return await prisma.note.findFirst({
     where: {
-      title: title,
-      userId: userId,
+      title: note.title,
+      userId: note.userId,
     },
   });
 }

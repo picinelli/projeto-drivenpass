@@ -3,11 +3,12 @@ import * as credentialsRepository from "../repositories/credentialsRepository.js
 import throwError from "../utils/throwError.js";
 
 
-export async function createCredential(credentialData: credentialsRepository.Credential, userId: number) {
-  credentialData.password = encryptPassword(credentialData.password);
+export async function createCredential(credentialData: credentialsRepository.Credential) {
+  const {password, title, userId} = credentialData
+  credentialData.password = encryptPassword(password);
 
   const credentialTitleAlreadyExist =
-    await credentialsRepository.getCredentialByTitle(credentialData.title, userId);
+    await credentialsRepository.getCredentialByTitle(title, userId);
 
   if (credentialTitleAlreadyExist)
     throwError("You already have a credential with this title");
@@ -18,7 +19,7 @@ export async function createCredential(credentialData: credentialsRepository.Cre
 export async function getCredential(id: number, userId: number) {
   const credential = await credentialsRepository.getCredentialById(id)
   if(!credential) throwError("This credential does not exist!")
-  if(credential.userId !== userId) throwError("UserId incorrect!")
+  if(credential.userId !== userId) throwError("This is not your credential!")
 
   credential.password = decryptPassword(credential.password)
 
@@ -37,7 +38,7 @@ export async function getAllUserCredentials(userId: number) {
 export async function deleteCredential(id: number, userId: number) {
   const credential = await credentialsRepository.getCredentialById(id)
   if(!credential) throwError("This credential does not exist!")
-  if(credential.userId !== userId) throwError("UserId incorrect!")
+  if(credential.userId !== userId) throwError("This is not your credential!")
 
   await credentialsRepository.deleteCredential(id)
 }

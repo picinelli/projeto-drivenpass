@@ -5,12 +5,10 @@ import { Credential } from "../repositories/credentialsRepository.js"
 import throwError from "../utils/throwError.js";
 
 export async function createCredential(req: Request, res: Response) {
-  const credentialData: Credential = req.body;
   const userId: number = res.locals.token.userId
+  const credentialData: Credential = {...req.body, userId: userId};
 
-  if(credentialData.userId !== userId) throwError("userId Incorrect")
-
-  await credentialsService.createCredential(credentialData, userId)
+  await credentialsService.createCredential(credentialData)
 
   res.status(201).send("Credencial criada com sucesso!");
 }
