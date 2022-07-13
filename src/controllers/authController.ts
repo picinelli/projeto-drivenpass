@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { validateSchema } from "../middlewares/validateSchemaMiddleware.js";
-import { userInfoSchema } from "../schemas/authSchemas.js";
 import * as authService from "../services/authService.js";
 
 export interface UserInfo {

@@ -40,5 +40,5 @@ export async function loginUser(userInfo: UserInfo) {
 
   await insertSession(insertInfo)
 
-  return token
+  return insertInfo
 }

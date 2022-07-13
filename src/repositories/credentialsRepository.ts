@@ -16,44 +16,44 @@ export async function getCredentialByTitle(title: string, userId: number) {
   return await prisma.credential.findFirst({
     where: {
       title: title,
-      userId: userId
-    }
-  })
+      userId: userId,
+    },
+  });
 }
 
 export async function getCredentialById(id: number) {
   return await prisma.credential.findFirst({
     where: {
-      id: id
-    }
-  })
+      id: id,
+    },
+  });
 }
 
 export async function getAllUserCredentials(userId: number) {
   return await prisma.credential.findMany({
     where: {
-      userId: userId
-    }
-  })
+      userId: userId,
+    },
+  });
 }
 
 export async function createCredential(credential: Credential) {
-  const {title, username, url, password, userId} = credential
+  const { title, username, url, password, userId } = credential;
   return await prisma.credential.create({
     data: {
       title,
       username,
       url,
       password,
-      userId
-    }
-  })
+      userId,
+    },
+  });
 }
 
 export async function deleteCredential(id: number) {
   return await prisma.credential.delete({
     where: {
-      id: id
-    }
-  })
+      id: id,
+    },
+  });
 }

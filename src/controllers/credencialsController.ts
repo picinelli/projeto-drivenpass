@@ -1,14 +1,11 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";
+
 import * as credentialsService from "../services/credentialsService.js"
 import { Credential } from "../repositories/credentialsRepository.js"
-
 import throwError from "../utils/throwError.js";
 
-export type CredentialData = Omit<Credential, "id" | "createdAt">;
-
 export async function createCredential(req: Request, res: Response) {
-  const credentialData: CredentialData = req.body;
+  const credentialData: Credential = req.body;
   const userId: number = res.locals.token.userId
 
   if(credentialData.userId !== userId) throwError("userId Incorrect")

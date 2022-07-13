@@ -1,19 +1,14 @@
-import { CredentialData } from "../controllers/credencialsController";
-import bcrypt from "bcrypt";
 import Cryptr from "cryptr";
 import * as credentialsRepository from "../repositories/credentialsRepository.js"
 import throwError from "../utils/throwError.js";
 
 
-export async function createCredential(credentialData: CredentialData, userId: number) {
+export async function createCredential(credentialData: credentialsRepository.Credential, userId: number) {
   credentialData.password = encryptPassword(credentialData.password);
-
-  console.log(userId)
 
   const credentialTitleAlreadyExist =
     await credentialsRepository.getCredentialByTitle(credentialData.title, userId);
 
-    console.log(credentialTitleAlreadyExist)
   if (credentialTitleAlreadyExist)
     throwError("You already have a credential with this title");
 
