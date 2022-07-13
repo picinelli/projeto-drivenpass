@@ -11,8 +11,6 @@ export interface UserInfo {
 export async function createUser(req: Request, res: Response) {
   const body: UserInfo = req.body;
 
-  validateSchema(userInfoSchema, body);
-
   await authService.createUser(body);
 
   res.status(201).send("Usuário criado com sucesso!");
@@ -20,8 +18,6 @@ export async function createUser(req: Request, res: Response) {
 
 export async function loginUser(req: Request, res: Response) {
   const body: UserInfo = req.body;
-
-  validateSchema(userInfoSchema, body);
 
   const token = await authService.loginUser(body);
 

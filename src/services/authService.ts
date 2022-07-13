@@ -28,7 +28,9 @@ export async function loginUser(userInfo: UserInfo) {
   const { email, password } = userInfo;
   const user = await getUserByEmail(email);
   if (!user) throwError("This account doesnt exists!");
-  if (password !== user.password) throwError("Email or password incorrect")
+  
+  const isPasswordCorrect = bcrypt.compareSync(password, user.password)
+  if (!isPasswordCorrect) throwError("Email or password incorrect")
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
   const insertInfo: tokenInfo = {

@@ -1,14 +1,39 @@
 import { Request, Response } from "express";
-import { validateSchema } from "../middlewares/validateSchemaMiddleware.js";
-import { createCredentialSchema } from "../schemas/credentialsSchemas.js";
+import bcrypt from "bcrypt";
 import * as credentialsService from "../services/credentialsService.js"
+import { Credential } from "../repositories/credentialsRepository.js"
+
+import throwError from "../utils/throwError.js";
+
+export type CredentialData = Omit<Credential, "id" | "createdAt">;
 
 export async function createCredential(req: Request, res: Response) {
-  const body = req.body
+  const credentialData: CredentialData = req.body;
+  const userId: number = res.locals.token.userId
 
-  validateSchema(createCredentialSchema, body)
+  if(credentialData.userId !== userId) throwError("userId Incorrect")
 
-  await credentialsService.createCredential()
+  await credentialsService.createCredential(credentialData, userId)
 
-  res.send("deu certo")
+  res.status(201).send("Credencial criada com sucesso!");
+}
+
+export async function getCredential(req: Request, res: Response) {
+  const id = req.params.id
+  const userId: number = res.locals.token.userId
+  if(!id || Number(id) === NaN) {
+    throwError("Insert a valid id!")
+  }
+
+  const credential = await credentialsService.getCredential(Number(id), userId)
+
+  res.status(200).send(credential)
+}
+
+export async function getAllUserCredentials(req: Request, res: Response) {
+  const userId: number = res.locals.token.userId
+  
+  const credentials = await credentialsService.getAllUserCredentials(userId)
+
+  res.status(200).send(credentials)
 }

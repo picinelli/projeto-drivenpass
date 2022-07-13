@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import e from "express";
 import { UserInfo } from "../controllers/authController.js";
 import { tokenInfo } from "../services/authService.js";
 
@@ -19,6 +18,14 @@ export async function insertSession(tokenInfo: tokenInfo) {
     data: {
       token: tokenInfo.token,
       userId: tokenInfo.userId
+    }
+  })
+}
+
+export async function verifySession(token: string) {
+  return await prisma.session.findFirst({
+    where: {
+      token: token
     }
   })
 }
