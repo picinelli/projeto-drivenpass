@@ -1,15 +1,13 @@
-import { UserInfo } from "../controllers/authController.js";
 import { getUserByEmail, insertSession, insertUser } from "../repositories/authRepository.js";
 import throwError from "../utils/throwError.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Session, User } from "@prisma/client";
 
-export interface tokenInfo {
-  token: string,
-  userId: number
-}
+export type UserInfo = Omit<User, "id" | "createdAt">
+export type tokenInfo = Omit<Session, "id" | "createdAt">
 
-export async function createUser(userInfo: UserInfo) {
+export async function createUser(userInfo: User) {
   const { email, password } = userInfo;
   const isEmailUsed = await getUserByEmail(email);
   if (isEmailUsed) throwError("This email is already being used!");
@@ -24,7 +22,7 @@ export async function createUser(userInfo: UserInfo) {
   return await insertUser(insertInfo);
 }
 
-export async function loginUser(userInfo: UserInfo) {
+export async function loginUser(userInfo: User) {
   const { email, password } = userInfo;
   const user = await getUserByEmail(email);
   if (!user) throwError("This account doesnt exists!");

@@ -1,13 +1,9 @@
+import { User } from "@prisma/client";
 import { Request, Response } from "express";
 import * as authService from "../services/authService.js";
 
-export interface UserInfo {
-  email: string,
-  password: string
-}
-
 export async function createUser(req: Request, res: Response) {
-  const body: UserInfo = req.body;
+  const body: User = req.body;
 
   await authService.createUser(body);
 
@@ -15,7 +11,7 @@ export async function createUser(req: Request, res: Response) {
 }
 
 export async function loginUser(req: Request, res: Response) {
-  const body: UserInfo = req.body;
+  const body: User = req.body;
 
   const token = await authService.loginUser(body);
 

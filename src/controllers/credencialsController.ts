@@ -1,7 +1,6 @@
+import { Credential } from "@prisma/client";
 import { Request, Response } from "express";
-
 import * as credentialsService from "../services/credentialsService.js"
-import { Credential } from "../repositories/credentialsRepository.js"
 import throwError from "../utils/throwError.js";
 
 export async function createCredential(req: Request, res: Response) {

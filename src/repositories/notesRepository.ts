@@ -1,14 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { Note, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
-export interface Note {
-  id?: number;
-  title: string;
-  description: string;
-  userId: number;
-  createdAt?: Date;
-}
 
 export async function createNote(note: Note) {
   const {title, description, userId} = note

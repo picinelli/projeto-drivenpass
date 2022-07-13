@@ -1,16 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { Credential, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
-export interface Credential {
-  id?: number;
-  title: string;
-  username: string;
-  url: string;
-  password: string;
-  userId: number;
-  createdAt?: Date;
-}
 
 export async function getCredentialByTitle(title: string, userId: number) {
   return await prisma.credential.findFirst({

@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import { Note } from "../repositories/notesRepository.js";
-import throwError from "../utils/throwError.js";
 import * as notesService from "../services/notesService.js"
+import { Note } from "@prisma/client";
 
 
 

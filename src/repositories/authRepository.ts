@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { UserInfo } from "../controllers/authController.js";
+import { UserInfo } from "../services/authService.js";
 import { tokenInfo } from "../services/authService.js";
 
 const prisma = new PrismaClient();

@@ -1,9 +1,10 @@
+import { Credential } from "@prisma/client";
 import Cryptr from "cryptr";
 import * as credentialsRepository from "../repositories/credentialsRepository.js"
 import throwError from "../utils/throwError.js";
 
 
-export async function createCredential(credentialData: credentialsRepository.Credential) {
+export async function createCredential(credentialData: Credential) {
   const {password, title, userId} = credentialData
   credentialData.password = encryptPassword(password);
 
@@ -30,7 +31,7 @@ export async function getAllUserCredentials(userId: number) {
   const credentials = await credentialsRepository.getAllUserCredentials(userId)
   if(!credentials) throwError("No credential was found")
 
-  const decryptedCredentials: credentialsRepository.Credential[] = decryptMultiplePasswords(credentials)
+  const decryptedCredentials: Credential[] = decryptMultiplePasswords(credentials)
 
   return decryptedCredentials
 }
@@ -59,7 +60,7 @@ function decryptPassword(password: string) {
   return cryptr.decrypt(password);
 }
 
-function decryptMultiplePasswords(credentials: credentialsRepository.Credential[]) {
+function decryptMultiplePasswords(credentials: Credential[]) {
   const cryptr = new Cryptr(process.env.CRYPTR_PASS);
 
   credentials.map(e => {
