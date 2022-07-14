@@ -1,66 +1,57 @@
 import { Credential } from "@prisma/client";
 import Cryptr from "cryptr";
-import * as credentialsRepository from "../repositories/credentialsRepository.js"
+import * as credentialsRepository from "../repositories/credentialsRepository.js";
+import {
+  decryptValue,
+  encryptValue,
+} from "../utils/encryptDecryptsUtils.js";
 import throwError from "../utils/throwError.js";
 
-
 export async function createCredential(credentialData: Credential) {
-  const {password, title, userId} = credentialData
-  credentialData.password = encryptPassword(password);
+  const { password, title, userId } = credentialData;
+  credentialData.password = encryptValue(password);
 
   const credentialTitleAlreadyExist =
     await credentialsRepository.getCredentialByTitle(title, userId);
 
-  if (credentialTitleAlreadyExist)
+  if (credentialTitleAlreadyExist) {
     throwError("You already have a credential with this title");
+  }
 
   await credentialsRepository.createCredential(credentialData);
 }
 
 export async function getCredential(id: number, userId: number) {
-  const credential = await credentialsRepository.getCredentialById(id)
-  if(!credential) throwError("This credential does not exist!")
-  if(credential.userId !== userId) throwError("This is not your credential!")
+  const credential = await credentialsRepository.getCredentialById(id);
+  if (!credential) throwError("This credential does not exist!");
+  if (credential.userId !== userId) throwError("This is not your credential!");
 
-  credential.password = decryptPassword(credential.password)
+  credential.password = decryptValue(credential.password);
 
-  return credential
+  return credential;
 }
 
 export async function getAllUserCredentials(userId: number) {
-  const credentials = await credentialsRepository.getAllUserCredentials(userId)
-  if(!credentials) throwError("No credential was found")
+  const credentials = await credentialsRepository.getAllUserCredentials(userId);
+  if (!credentials) throwError("No credential was found");
 
-  const decryptedCredentials: Credential[] = decryptMultiplePasswords(credentials)
+  const decryptedCredentials: Credential[] = decryptMultipleValues(credentials);
 
-  return decryptedCredentials
+  return decryptedCredentials;
 }
 
 export async function deleteCredential(id: number, userId: number) {
-  const credential = await credentialsRepository.getCredentialById(id)
-  if(!credential) throwError("This credential does not exist!")
-  if(credential.userId !== userId) throwError("This is not your credential!")
+  const credential = await credentialsRepository.getCredentialById(id);
+  if (!credential) throwError("This credential does not exist!");
+  if (credential.userId !== userId) throwError("This is not your credential!");
 
-  await credentialsRepository.deleteCredential(id)
+  await credentialsRepository.deleteCredential(id);
 }
 
 
+//util
 
-
-
-//Utility functions
-
-function encryptPassword(password: string) {
-  const cryptr = new Cryptr(process.env.CRYPTR_PASS);
-  return cryptr.encrypt(password)
-}
-
-function decryptPassword(password: string) {
-  const cryptr = new Cryptr(process.env.CRYPTR_PASS);
-  return cryptr.decrypt(password);
-}
-
-function decryptMultiplePasswords(credentials: Credential[]) {
+function decryptMultipleValues(credentials: Credential[]) {
   const cryptr = new Cryptr(process.env.CRYPTR_PASS);
 
   credentials.map(e => {
