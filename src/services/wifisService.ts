@@ -21,7 +21,7 @@ export async function getWifi(id: number, userId: number) {
 
 export async function getAllUserWifis(userId: number) {
   const wifis = await wifisRepository.getAllUserWifis(userId)
-  if(!wifis) throwError("No note was found")
+  if(!wifis) throwError("No wifi was found")
 
   const wifisDecrypted = decryptMultipleValues(wifis)
 
