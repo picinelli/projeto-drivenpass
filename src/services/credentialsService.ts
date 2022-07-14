@@ -49,8 +49,9 @@ export async function deleteCredential(id: number, userId: number) {
 }
 
 
-//util
 
+
+//utils
 function decryptMultipleValues(credentials: Credential[]) {
   const cryptr = new Cryptr(process.env.CRYPTR_PASS);
 
