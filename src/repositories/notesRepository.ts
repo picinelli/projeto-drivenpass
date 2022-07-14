@@ -3,14 +3,14 @@ import { Note, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function createNote(note: Note) {
-  const {title, description, userId} = note
+  const { title, description, userId } = note;
   return await prisma.note.create({
     data: {
       title,
       description,
-      userId
-    }
-  })
+      userId,
+    },
+  });
 }
 
 export async function getNoteByTitle(note: Note) {
@@ -20,4 +20,16 @@ export async function getNoteByTitle(note: Note) {
       userId: note.userId,
     },
   });
+}
+
+export async function getNoteById(id: number) {
+  return await prisma.note.findFirst({ where: { id } });
+}
+
+export async function getAllUserNotes(userId: number) {
+  return await prisma.note.findMany({ where: { userId } });
+}
+
+export async function deleteNote(id:number) {
+  return await prisma.note.delete({where: {id}})
 }
