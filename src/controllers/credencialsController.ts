@@ -9,7 +9,7 @@ export async function createCredential(req: Request, res: Response) {
 
   await credentialsService.createCredential(credentialData)
 
-  res.status(201).send("Credencial criada com sucesso!");
+  res.status(201).send("Credential created successfully!");
 }
 
 export async function getCredential(req: Request, res: Response) {

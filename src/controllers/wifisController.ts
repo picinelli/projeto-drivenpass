@@ -9,7 +9,7 @@ export async function createWifi(req: Request, res: Response) {
 
   await wifisService.createWifi(wifiData);
 
-  res.status(201).send("Nota criada com sucesso!");
+  res.status(201).send("Wifi created successfully!");
 }
 
 export async function getWifi(req: Request, res: Response) {

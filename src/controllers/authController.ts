@@ -7,7 +7,7 @@ export async function createUser(req: Request, res: Response) {
 
   await authService.createUser(body);
 
-  res.status(201).send("Usuário criado com sucesso!");
+  res.status(201).send("User created successfully!");
 }
 
 export async function loginUser(req: Request, res: Response) {

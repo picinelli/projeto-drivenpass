@@ -43,6 +43,7 @@ model Session {
   userId Int
   createdAt DateTime @default(now())
 
+  @@unique([userId, token])
   @@map("sessions")
 }
 
@@ -56,6 +57,7 @@ model Credential {
   userId    Int
   createdAt DateTime @default(now())
 
+  @@unique([userId, title])
   @@map("credentials")
 }
 
@@ -67,6 +69,7 @@ model Note {
   userId      Int
   createdAt   DateTime @default(now())
 
+  @@unique([userId, title])
   @@map("notes")
 }
 
@@ -84,6 +87,7 @@ model Card {
   userId         Int
   createdAt      DateTime @default(now())
 
+  @@unique([userId, title])
   @@map("cards")
 }
 

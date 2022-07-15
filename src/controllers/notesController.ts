@@ -9,7 +9,7 @@ export async function createNote(req: Request, res: Response) {
 
   await notesService.createNote(noteData)
 
-  res.status(201).send("Nota criada com sucesso!");
+  res.status(201).send("Note created successfully!");
 }
 
 export async function getNote(req: Request, res: Response) {
