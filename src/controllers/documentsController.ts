@@ -9,7 +9,6 @@ export async function createDocument(req: Request, res: Response) {
 
   await documentsService.createDocument(documentData);
 
-
   res.status(201).send("Document created successfully!");
 }
 
@@ -17,7 +16,7 @@ export async function getDocument(req: Request, res: Response) {
   const id = req.params.id;
   const userId: number = res.locals.token.userId;
   if (!id || Number(id) === NaN) {
-    throwError("Insert a valid id!");
+    throwError("Insert a valid id!", 400);
   }
 
   const document = await documentsService.getDocument(Number(id), userId);
@@ -26,21 +25,21 @@ export async function getDocument(req: Request, res: Response) {
 }
 
 export async function getAllUserDocuments(req: Request, res: Response) {
-  const userId: number = res.locals.token.userId
+  const userId: number = res.locals.token.userId;
 
-  const documents = await documentsService.getAllUserDocuments(userId)
+  const documents = await documentsService.getAllUserDocuments(userId);
 
-  res.status(200).send(documents)
+  res.status(200).send(documents);
 }
 
 export async function deleteDocument(req: Request, res: Response) {
-  const id = req.params.id
-  const userId: number = res.locals.token.userId
-  if(!id || Number(id) === NaN) {
-    throwError("Insert a valid id!")
+  const id = req.params.id;
+  const userId: number = res.locals.token.userId;
+  if (!id || Number(id) === NaN) {
+    throwError("Insert a valid id!", 400);
   }
 
-  await documentsService.deleteDocument(Number(id), userId)
+  await documentsService.deleteDocument(Number(id), userId);
 
-  res.status(200).send("Document deleted successfully!")
+  res.status(200).send("Document deleted successfully!");
 }

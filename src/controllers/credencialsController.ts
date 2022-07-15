@@ -16,7 +16,7 @@ export async function getCredential(req: Request, res: Response) {
   const id = req.params.id
   const userId: number = res.locals.token.userId
   if(!id || Number(id) === NaN) {
-    throwError("Insert a valid id!")
+    throwError("Insert a valid id!", 400)
   }
 
   const credential = await credentialsService.getCredential(Number(id), userId)
@@ -36,7 +36,7 @@ export async function deleteCredential(req: Request, res: Response) {
   const id = req.params.id
   const userId: number = res.locals.token.userId
   if(!id || Number(id) === NaN) {
-    throwError("Insert a valid id!")
+    throwError("Insert a valid id!", 400)
   }
 
   await credentialsService.deleteCredential(Number(id), userId)

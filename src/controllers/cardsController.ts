@@ -16,7 +16,7 @@ export async function getCard(req: Request, res: Response) {
   const id = req.params.id
   const userId: number = res.locals.token.userId
   if(!id || Number(id) === NaN) {
-    throwError("Insert a valid id!")
+    throwError("Insert a valid id!", 400)
   }
 
   const card = await cardsService.getCard(Number(id), userId)
@@ -36,7 +36,7 @@ export async function deleteCard(req: Request, res: Response) {
   const id = req.params.id
   const userId: number = res.locals.token.userId
   if(!id || Number(id) === NaN) {
-    throwError("Insert a valid id!")
+    throwError("Insert a valid id!", 400)
   }
 
   await cardsService.deleteCard(Number(id), userId)

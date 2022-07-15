@@ -10,7 +10,7 @@ export type tokenInfo = Omit<Session, "id" | "createdAt">
 export async function createUser(userInfo: User) {
   const { email, password } = userInfo;
   const isEmailUsed = await getUserByEmail(email);
-  if (isEmailUsed) throwError("This email is already being used!");
+  if (isEmailUsed) throwError("This email is already being used!", 409);
 
   const saltRounds = 10;
   const encryptedPass = await bcrypt.hash(password, saltRounds);
@@ -25,10 +25,10 @@ export async function createUser(userInfo: User) {
 export async function loginUser(userInfo: User) {
   const { email, password } = userInfo;
   const user = await getUserByEmail(email);
-  if (!user) throwError("This account doesnt exists!");
+  if (!user) throwError("This account doesnt exists!", 404);
   
   const isPasswordCorrect = bcrypt.compareSync(password, user.password)
-  if (!isPasswordCorrect) throwError("Email or password incorrect")
+  if (!isPasswordCorrect) throwError("Email or password incorrect", 400)
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
   const insertInfo: tokenInfo = {

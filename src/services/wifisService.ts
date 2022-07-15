@@ -11,8 +11,8 @@ export async function createWifi(wifiData: Wifi) {
 
 export async function getWifi(id: number, userId: number) {
   const wifi = await wifisRepository.getWifiById(id)
-  if(!wifi) throwError("This wifi does not exist!")
-  if(wifi.userId !== userId) throwError("This is not your wifi!")
+  if(!wifi) throwError("This wifi does not exist!", 404)
+  if(wifi.userId !== userId) throwError("This is not your wifi!", 403)
 
   wifi.password = decryptValue(wifi.password)
 
@@ -21,7 +21,7 @@ export async function getWifi(id: number, userId: number) {
 
 export async function getAllUserWifis(userId: number) {
   const wifis = await wifisRepository.getAllUserWifis(userId)
-  if(!wifis) throwError("No wifi was found")
+  if(!wifis) throwError("No wifi was found", 404)
 
   const wifisDecrypted = decryptMultipleValues(wifis)
 
@@ -30,8 +30,8 @@ export async function getAllUserWifis(userId: number) {
 
 export async function deleteWifi(id: number, userId: number) {
   const wifi = await wifisRepository.getWifiById(id)
-  if(!wifi) throwError("This wifi does not exist!")
-  if(wifi.userId !== userId) throwError("This is not your wifi!")
+  if(!wifi) throwError("This wifi does not exist!", 404)
+  if(wifi.userId !== userId) throwError("This is not your wifi!", 403)
 
   await wifisRepository.deleteWifi(id)
 }

@@ -11,7 +11,7 @@ async function createDocument(documentData: Document) {
   documentData.expirationDate = new Date(documentData.expirationDate)
 
   if (documentTitleAlreadyExist)
-    throwError("You already have a document of this type");
+    throwError("You already have a document of this type", 409);
 
     try {
       await documentsRepository.createDocument(documentData);
@@ -22,23 +22,23 @@ async function createDocument(documentData: Document) {
 
 async function getDocument(documentId: number, userId: number) {
   const document = await documentsRepository.getDocumentById(documentId)
-  if(!document) throwError("This document does not exist!")
-  if(document.userId !== userId) throwError("This is not your document!")
+  if(!document) throwError("This document does not exist!", 404)
+  if(document.userId !== userId) throwError("This is not your document!", 403)
 
   return document
 }
 
 async function getAllUserDocuments(userId: number) {
   const notes = await documentsRepository.getAllUserDocuments(userId)
-  if(!notes) throwError("No document was found")
+  if(!notes) throwError("No document was found", 404)
 
   return notes
 }
 
 async function deleteDocument(documentId: number, userId: number) {
   const document = await documentsRepository.getDocumentById(documentId)
-  if(!document) throwError("This document does not exist!")
-  if(document.userId !== userId) throwError("This is not your document!")
+  if(!document) throwError("This document does not exist!", 404)
+  if(document.userId !== userId) throwError("This is not your document!", 403)
 
   await documentsRepository.deleteDocument(documentId)
 }

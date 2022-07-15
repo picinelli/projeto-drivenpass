@@ -11,7 +11,7 @@ export async function createCard(cardInfo: Card) {
     cardInfo.userId
   );
   if (cardTitleAlreadyExist) {
-    throwError("You already have a card with this title!");
+    throwError("You already have a card with this title!", 409);
   }
 
   cardInfo.password = encryptValue(cardInfo.password);
@@ -22,8 +22,8 @@ export async function createCard(cardInfo: Card) {
 
 export async function getCard(id: number, userId: number) {
   const card = await cardsRepository.getcardById(id)
-  if(!card) throwError("This card does not exist!")
-  if(card.userId !== userId) throwError("This card is not yours!")
+  if(!card) throwError("This card does not exist!", 404)
+  if(card.userId !== userId) throwError("This card is not yours!", 403)
 
   card.password = decryptValue(card.password)
   card.securityCode = decryptValue(card.securityCode)
@@ -33,7 +33,7 @@ export async function getCard(id: number, userId: number) {
 
 export async function getAllUserCards(userId: number) {
   const cards = await cardsRepository.getAllUsercards(userId)
-  if(!cards) throwError("You do not have any cards!")
+  if(!cards) throwError("You do not have any cards!", 404)
 
   const decryptedCards = decryptMultipleValues(cards)
   
@@ -42,8 +42,8 @@ export async function getAllUserCards(userId: number) {
 
 export async function deleteCard(id: number, userId: number) {
   const card = await cardsRepository.getcardById(id)
-  if(!card) throwError("This card does not exist!")
-  if(card.userId !== userId) throwError("This card is not yours!")
+  if(!card) throwError("This card does not exist!", 404)
+  if(card.userId !== userId) throwError("This card is not yours!", 403)
 
   await cardsRepository.deletecard(id)
 

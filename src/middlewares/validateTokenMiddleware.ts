@@ -8,11 +8,11 @@ export async function validateToken(
   next: NextFunction
 ) {
   const { authorization } = req.headers;
-  if (!authorization) return throwError("Token nao encontrado");
+  if (!authorization) return throwError("Token nao encontrado", 401);
 
   const token = authorization.replace("Bearer", "").trim();
   const dbToken = await verifySession(token);
-  if (!dbToken) throwError(`Token nao encontrado`);
+  if (!dbToken) throwError("Token nao encontrado", 404);
 
   res.locals.token = dbToken
 

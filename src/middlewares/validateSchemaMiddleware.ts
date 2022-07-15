@@ -6,7 +6,7 @@ export function validateSchema(schema: ObjectSchema) {
   return (req: Request, res: Response, next: NextFunction) => {
     const body = req.body;
     const { error, value } = schema.validate(body);
-    if (error) throwError(`${error.details[0].message}`);
+    if (error) throwError(`${error.details[0].message}`, 400);
 
     next();
   };

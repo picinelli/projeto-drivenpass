@@ -1,6 +1,6 @@
-export default function throwError(message: string) {
+export default function throwError(message: string, type: number) {
   throw {
-    type: 400,
+    type,
     message
   }
 }

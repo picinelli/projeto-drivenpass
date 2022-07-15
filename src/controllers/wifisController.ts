@@ -16,7 +16,7 @@ export async function getWifi(req: Request, res: Response) {
   const id = req.params.id;
   const userId: number = res.locals.token.userId;
   if (!id || Number(id) === NaN) {
-    throwError("Insert a valid id!");
+    throwError("Insert a valid id!", 400);
   }
 
   const wifi = await wifisService.getWifi(Number(id), userId);
@@ -25,21 +25,21 @@ export async function getWifi(req: Request, res: Response) {
 }
 
 export async function getAllUserWifis(req: Request, res: Response) {
-  const userId: number = res.locals.token.userId
+  const userId: number = res.locals.token.userId;
 
-  const wifis = await wifisService.getAllUserWifis(userId)
+  const wifis = await wifisService.getAllUserWifis(userId);
 
-  res.status(200).send(wifis)
+  res.status(200).send(wifis);
 }
 
 export async function deleteWifi(req: Request, res: Response) {
-  const id = req.params.id
-  const userId: number = res.locals.token.userId
-  if(!id || Number(id) === NaN) {
-    throwError("Insert a valid id!")
+  const id = req.params.id;
+  const userId: number = res.locals.token.userId;
+  if (!id || Number(id) === NaN) {
+    throwError("Insert a valid id!", 400);
   }
 
-  await wifisService.deleteWifi(Number(id), userId)
+  await wifisService.deleteWifi(Number(id), userId);
 
-  res.status(200).send("Wifi deleted successfully!")
+  res.status(200).send("Wifi deleted successfully!");
 }
