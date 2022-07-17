@@ -5,8 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -p ./src/tsconfig.json",
-    "start": "node src/dist/index.js",
+    "build": "tsc -p ./tsconfig.json",
+    "start": "node /dist/index.js",
     "dev": "nodemon src/index.ts"
   },
   "author": "",
