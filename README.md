@@ -131,9 +131,8 @@ npm start
 - **DELETE /card/:id** </br>
   **Esta é uma rota autenticada.** </br>
   Deve deletar o cartão, caso seja do usuário.
-	```
 	
-- **POST /create-credencial* </br>
+- **POST /create-credencial** </br>
   **Esta é uma rota autenticada.** </br>
   Deve receber um corpo (body) no formato: 
   ```
@@ -160,7 +159,7 @@ npm start
   }
 	```
 	
-- **GET /credencials* </br>
+- **GET /credencials** </br>
   **Esta é uma rota autenticada.** </br>
   Deve responder um corpo (body) no formato: 
   ```
@@ -181,9 +180,8 @@ npm start
 - **DELETE /credencial/:id** </br>
   **Esta é uma rota autenticada.** </br>
   Deve deletar a credencial, caso seja do usuário.
-	```
 	
-- **POST /create-document* </br>
+- **POST /create-document** </br>
   **Esta é uma rota autenticada.** </br>
   Deve receber um corpo (body) no formato: 
   ```
@@ -214,7 +212,7 @@ npm start
   }
 	```
 	
-- **GET /documents* </br>
+- **GET /documents** </br>
   **Esta é uma rota autenticada.** </br>
   Deve responder um corpo (body) no formato: 
   ```
@@ -261,7 +259,7 @@ npm start
   }
 	```
 	
-- **GET /notes* </br>
+- **GET /notes** </br>
   **Esta é uma rota autenticada.** </br>
   Deve responder um corpo (body) no formato: 
   ```
@@ -306,7 +304,7 @@ npm start
   }
 	```
 	
-- **GET /wifis* </br>
+- **GET /wifis** </br>
   **Esta é uma rota autenticada.** </br>
   Deve responder um corpo (body) no formato: 
   ```
